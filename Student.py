@@ -7,6 +7,7 @@ class Student():
         self.year = year
         self.firstname = fname_firstname
         self.lastname = fname_lastname
+        self.stdname = "null"
         Student.std_count += 1
         self.sid = str(self.year)+ str(self.std_count).zfill(2)
     def GetName(self):
@@ -36,9 +37,9 @@ class Student():
 
         first_name_index = random.randint(0, len(name_list)-1)
         last_name_index = random.randint(0, len(name_list_last)-1)
-        stdname = name_list[first_name_index] + name_list_last[last_name_index]
+        self.stdname = name_list[first_name_index] + name_list_last[last_name_index]
         fo.close()
-        return stdname
+ 
         
 
 

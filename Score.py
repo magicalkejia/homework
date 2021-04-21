@@ -1,6 +1,7 @@
 import random
+from Student import Student
 import pandas as pd
-import MainTask from MainTask
+
 
 
 class Class():
@@ -9,21 +10,19 @@ class Class():
         self.class_id = class_id
         self.class_num = class_num
         self.Student = []
-
-    
-        
+ 
         self.score_detail = []
-        self.score_record = ()
+        self.score_record = []
         
         self.offset_up = 5
         self.offset_down = 5
     
     def CreateStudent(self):
         for i in range(self.class_num):
-            tup = ()
+            #tup = ()
             current = Student(2021,"firstname.txt","lastname.txt")
-            tup.append(current.sid)
-            tup.append(current.GetName())
+            tup = (current.sid,current.stdname)
+
             self.Student.append(tup)
         
 

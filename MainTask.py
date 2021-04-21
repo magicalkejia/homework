@@ -17,6 +17,7 @@ if __name__ == "__main__":
     #print(class1.subject,class1.class_id,class1.class_num)
     class1.CreateStudent()
     class1.Exam("serious")
+    class1.Excel()
     #print(class1.score_detail)
 
    
