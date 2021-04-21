@@ -1,17 +1,31 @@
 import random
+import pandas as pd
+import MainTask from MainTask
 
 
-class ClassScore():
+class Class():
     def __init__(self,subject,class_id,class_num):
         self.subject = subject
         self.class_id = class_id
         self.class_num = class_num
+        self.Student = []
+
+    
+        
         self.score_detail = []
+        self.score_record = ()
         
         self.offset_up = 5
         self.offset_down = 5
+    
+    def CreateStudent(self):
+        for i in range(self.class_num):
+            tup = ()
+            current = Student(2021,"firstname.txt","lastname.txt")
+            tup.append(current.sid)
+            tup.append(current.GetName())
+            self.Student.append(tup)
         
-      
 
 
     
@@ -111,10 +125,41 @@ class ClassScore():
             index_after =  self.ScoreStata(self.score_detail)
 
             result = self.CheckOffset(index_before,index_after)
+            if (result == True):
+                self.score_record.append(self.score_detail)
+                self.score_detail = []
             if (result == False):
+                self.score_detail = []
                 attempt(self,up_number,down_number)
+
           
         attempt(self,up_number,down_number)
+
+    def Excel(self):
+        print(self.Student)
+        print(self.score_record)
+        ls1 = []
+        ls2 = []
+        for tup in self.Student:
+
+            ls1.append(tup[0])
+            ls2.append(tup[1])
+
+        # Create a Pandas dataframe from some data.
+        std_id = pd.DataFrame({'Sid': ls1})
+        std_name = pd.DataFrame({'Name': ls2})
+        score = pd.DataFrame({'Data': self.score_record[0]})
+
+        # Create a Pandas Excel writer using XlsxWriter as the engine.
+        writer = pd.ExcelWriter('ClassScore.xlsx', engine='xlsxwriter')
+
+        # Convert the dataframe to an XlsxWriter Excel object.
+        std_id.to_excel(writer,sheet_name='ClassScore_{0}'.format(self.class_id))
+        std_name.to_excel(writer,sheet_name='ClassScore_{0}'.format(self.class_id))
+        score.to_excel(writer,sheet_name='ClassScore_{0}'.format(self.class_id))
+
+        # Close the Pandas Excel writer and output the Excel file.
+        writer.save()
 
         
 

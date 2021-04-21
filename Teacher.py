@@ -7,7 +7,8 @@ class Teacher():
         self.lastname = fname_lastname
         Teacher.teacher_count += 1
         self.tid = str(self.teacher_count).zfill(6)
-    def GetName(self):
+
+    def GetName(self):#读取两个文件的内容，混合生产名字
         path1 = "assets/" + "firstname.txt"
         path2 = "assets/" + "lastname.txt"
         try:#文件第一个空行占三位，之后每个字占1位，换行占2位
