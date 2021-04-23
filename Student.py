@@ -41,11 +41,3 @@ class Student():
         fo.close()
  
         
-
-
-    def display(self,type):
-        if(self.type == "name"):
-            print("Name" + self.name)
-        if(self.type == "sid"):
-            print("学号：" + sid)
-    
