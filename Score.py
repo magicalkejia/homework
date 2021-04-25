@@ -5,11 +5,7 @@ import xlsxwriter
 # coding=utf-8
 
 class Class():
-    score_record = {}
-    seven = {}
-    eight = {}
-    nine = {}
-    end = {}
+
     def __init__(self,class_id,class_num):
       
         self.class_id = class_id
@@ -19,10 +15,17 @@ class Class():
         self.offset_up = 5
         self.offset_down = 5
         self.subject_list = ["语文","数学","英语","地理","生物","历史","政治","体育","音乐","画画","物理","化学"]
-        self.seventh = ["期中","期末","期中（2）","期末（2）"]
-        self.eighth = ["期中","期末","期中（2）","期末（2）"]
-        self.nineth = ["第一次月考","第二次月考","期中考试","第三次月考","第四次月考","期末考试","第一次月考（2）","第二次月考（2）","期中考试（2）","第三次月考（2）","第四次月考（2）","期末考试（2）"}
-        self.end  = ["中考"]
+        self.seventh = ["期中考试","期末考试","期中考试（2）","期末考试（2）"]
+        self.eighth = ["期中考试","期末考试","期中考试（2）","期末考试（2）"]
+        self.nineth = ["第一次月考","第二次月考","期中考试","第三次月考","第四次月考","期末考试","第一次月考（2）","第二次月考（2）","期中考试（2）","第三次月考（2）","第四次月考（2）","期末考试（2）"]
+        self.end_key  = ["中考"]
+        #以上self 主要充作字典的键
+        #以下self作为空字典存储实际结果
+        self.score_record = {}
+        self.seven = {}
+        self.eight = {}
+        self.nine = {}
+        self.end = {}
 
 
     
@@ -90,11 +93,8 @@ class Class():
         return index
      
         
-
-
     def CheckOffset(self,before,after):
         summary = 0
-        #ls = []
         for i in range(len(after)):
             change = abs(after[i] - before[i])
             summary += change
@@ -104,21 +104,8 @@ class Class():
             return False
         
  
-    def Exam(self,teacher_attr,time,score_record):
+    def Exam(self,teacher_attr,time):
 
-
-        def Package(self,score_record,length):
-            temp = []
-           
-            for i in range (length):
-                self.Exam_offset(False,up_number,down_number)
-            
-                self.Exam_offset(True,up_number,down_number)
-
-                temp.append(self.score_detail)
-                package = tuple(temp)
-                self.score_detail = []
-            return package
         #处理老师工作态度参数
         if teacher_attr == "serious":
             up_number = 0.05*self.class_num
@@ -133,26 +120,41 @@ class Class():
         else:
             print("unkonwn attribute of teacher,please input serious/casual")
 
-        #处理时间参数
-        if time =="初一"：
-            Excute(self,score_record,len(self.subject_list)-2)
-            for name in self.seventh:
-                seven['']
 
-        elif time == "初二":
-            Excute(self,score_record,len(self.subject_list)-1)
-        elif time == "初三":
-            Excute(self,score_record,len(self.subject_list))
-        else:
-            print("unkonwn period ,please input '初一/初二/初三'")
+        def Package(self,length):
+          
+            package = {}
+           
+            for i in range (length):
+                self.Exam_offset(False,up_number,down_number)
+            
+                self.Exam_offset(True,up_number,down_number)
+
+                package[self.subject_list[i]] = self.score_detail
+                self.score_detail = []
+           
+            return package
+        #处理时间参数，使得输入的时间字符串与相关数据建立关系，精简代码
+
+        period = {"初一":self.seventh,"初二":self.eighth,"初三":self.nineth,"中考":self.end_key}
+        length = {"初一":len(self.subject_list)-2,"初二":self.subject_list)-1,"初三":len(self.subject_list),"中考":len(self.subject_list)}
+        data = {"初一":self.seven,"初二":self.eight,"初三":self.nine,"中考":self.end}
+        
+        for i  in range (len(period[time])):
+            pack = Package(self,length[time])
+            data[time][period[time][i]] = pack 
+        
+        self.score_record[time] = data[time]
+
     
-    def Bonus(self):
-        subject_bonus = {"语文":(1,0.3,-0.1),"数学":(1,0.3,-0.1),"英语":(1,0.3,-0.1),"地理":(0.3,0.1,-0.1),"历史":(0.3,0.1,-0.1),"政治":(0.3,0.1,-0.1),"体育":(0.3,0.1,-0.1),"音乐":(0.3,0.1,-0.1),"画画":(0.3,0.1,-0.1),"物理":(0.3,0.1,-0.1),"化学":(0.3,0.1,-0.1)}
+    def Bonus(self,bonus):
+        subject_bonus = bonus
 
 
 
 
-    def Excel(self):
+
+    def Excel(self,time):
 
         ls1 = []
         ls2 = []
@@ -161,14 +163,21 @@ class Class():
             ls1.append(tup[0])
             ls2.append(tup[1])
 
+
+        writer = pd.ExcelWriter('{0}班级{1}成绩汇总.xlsx'.format(self.class_id,time), engine='xlsxwriter')
+
+        period = {"初一":self.seventh,"初二":self.eighth,"初三":self.nineth,"中考":self.end_key}
+
+
         # Create a Pandas dataframe from some data.
-        Data = pd.DataFrame({'学号': ls1,'名字': ls2,'语文': self.score_record[0],"数学":self.score_record[1]})
-       
-   
-        writer = pd.ExcelWriter('ClassScore.xlsx', engine='xlsxwriter')
+        for i in range (len(period[time])):
+            Info = pd.DataFrame({"学号":ls1,"姓名":ls2})
+            Data = pd.DataFrame(self.score_record[time][period[time]])
 
         # Convert the dataframe to an XlsxWriter Excel object.
-        Data.to_excel(writer,sheet_name='{0}班级{1}成绩'.format(self.class_id,"期中"),startcol=0, index=False)
+            Info.to_excel(writer,sheet_name='{0}班{1}成绩'.format(self.class_id,period[time]),startcol=0, index=False)
+            Data.to_excel(writer,sheet_name='{0}班{1}成绩'.format(self.class_id,period[time]),startcol=2, index=False)
+
  
 
         # Close the Pandas Excel writer and output the Excel file.
