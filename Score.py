@@ -5,20 +5,25 @@ import xlsxwriter
 # coding=utf-8
 
 class Class():
-    index_record = []
-    score_record = []
+    score_record = {}
+    seven = {}
+    eight = {}
+    nine = {}
+    end = {}
     def __init__(self,class_id,class_num):
       
         self.class_id = class_id
         self.class_num = class_num
         self.Student = []
- 
         self.score_detail = []
-
         self.offset_up = 5
         self.offset_down = 5
-        self.subject_list = ["语文","数学","英语","地理","历史","政治","体育","音乐","画画","物理","化学"]
-        #self.score_record = []
+        self.subject_list = ["语文","数学","英语","地理","生物","历史","政治","体育","音乐","画画","物理","化学"]
+        self.seventh = ["期中","期末","期中（2）","期末（2）"]
+        self.eighth = ["期中","期末","期中（2）","期末（2）"]
+        self.nineth = ["第一次月考","第二次月考","期中考试","第三次月考","第四次月考","期末考试","第一次月考（2）","第二次月考（2）","期中考试（2）","第三次月考（2）","第四次月考（2）","期末考试（2）"}
+        self.end  = ["中考"]
+
 
     
     def CreateStudent(self):
@@ -64,8 +69,6 @@ class Class():
             rmdata(self)
 
 
-     
-
     def ScoreStata(self,data):
         origin = data
         order = list(data)
@@ -103,16 +106,19 @@ class Class():
  
     def Exam(self,teacher_attr,time,score_record):
 
-        subject = {"语文":(1,0.3,-0.1),"数学":(1,0.3,-0.1),"英语":(1,0.3,-0.1),"地理":(0.3,0.1,-0.1),"历史":(0.3,0.1,-0.1),"政治":(0.3,0.1,-0.1),"体育":(0.3,0.1,-0.1),"音乐":(0.3,0.1,-0.1),"画画":(0.3,0.1,-0.1),"物理":(0.3,0.1,-0.1),"化学":(0.3,0.1,-0.1)}
 
-        def carry(self,score_record,length):
+        def Package(self,score_record,length):
+            temp = []
+           
             for i in range (length):
                 self.Exam_offset(False,up_number,down_number)
             
                 self.Exam_offset(True,up_number,down_number)
 
-                score_record.append(self.score_detail)
+                temp.append(self.score_detail)
+                package = tuple(temp)
                 self.score_detail = []
+            return package
         #处理老师工作态度参数
         if teacher_attr == "serious":
             up_number = 0.05*self.class_num
@@ -123,22 +129,25 @@ class Class():
             up_number = 0.05*self.class_num
             down_number = 0.03*self.class_num
          
-        #处理时间参数
+     
         else:
             print("unkonwn attribute of teacher,please input serious/casual")
-        
+
+        #处理时间参数
         if time =="初一"：
-            carry(self,score_record,len(subject)-2)
+            Excute(self,score_record,len(self.subject_list)-2)
+            for name in self.seventh:
+                seven['']
 
         elif time == "初二":
-            carry(self,score_record,len(subject)-)
+            Excute(self,score_record,len(self.subject_list)-1)
         elif time == "初三":
-            carry(self,score_record,len(subject))
+            Excute(self,score_record,len(self.subject_list))
         else:
             print("unkonwn period ,please input '初一/初二/初三'")
-
-
-
+    
+    def Bonus(self):
+        subject_bonus = {"语文":(1,0.3,-0.1),"数学":(1,0.3,-0.1),"英语":(1,0.3,-0.1),"地理":(0.3,0.1,-0.1),"历史":(0.3,0.1,-0.1),"政治":(0.3,0.1,-0.1),"体育":(0.3,0.1,-0.1),"音乐":(0.3,0.1,-0.1),"画画":(0.3,0.1,-0.1),"物理":(0.3,0.1,-0.1),"化学":(0.3,0.1,-0.1)}
 
 
 
