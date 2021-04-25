@@ -2,21 +2,24 @@ import random
 from Student import Student
 import pandas as pd
 import xlsxwriter
-
+# coding=utf-8
 
 class Class():
     index_record = []
+    score_record = []
     def __init__(self,class_id,class_num):
-        self.subject = subject
+      
         self.class_id = class_id
         self.class_num = class_num
         self.Student = []
  
         self.score_detail = []
-        self.score_record = []
-        
+
         self.offset_up = 5
         self.offset_down = 5
+        self.subject_list = ["语文","数学","英语","地理","历史","政治","体育","音乐","画画","物理","化学"]
+        #self.score_record = []
+
     
     def CreateStudent(self):
         for i in range(self.class_num):
@@ -27,7 +30,6 @@ class Class():
 
             self.Student.append(tup)
         
-
 
     
     def Exam_offset(self,offset,up_number,down_number):
@@ -98,31 +100,51 @@ class Class():
         else:
             return False
         
-    
-    def Exam(self,teacher_attr,subject):
-       
+ 
+    def Exam(self,teacher_attr,time,score_record):
+
+        subject = {"语文":(1,0.3,-0.1),"数学":(1,0.3,-0.1),"英语":(1,0.3,-0.1),"地理":(0.3,0.1,-0.1),"历史":(0.3,0.1,-0.1),"政治":(0.3,0.1,-0.1),"体育":(0.3,0.1,-0.1),"音乐":(0.3,0.1,-0.1),"画画":(0.3,0.1,-0.1),"物理":(0.3,0.1,-0.1),"化学":(0.3,0.1,-0.1)}
+
+        def carry(self,score_record,length):
+            for i in range (length):
+                self.Exam_offset(False,up_number,down_number)
+            
+                self.Exam_offset(True,up_number,down_number)
+
+                score_record.append(self.score_detail)
+                self.score_detail = []
+        #处理老师工作态度参数
         if teacher_attr == "serious":
             up_number = 0.05*self.class_num
             down_number = 0.03*self.class_num
+            
+
+        elif teacher_attr == "casual":
+            up_number = 0.05*self.class_num
+            down_number = 0.03*self.class_num
+         
+        #处理时间参数
+        else:
+            print("unkonwn attribute of teacher,please input serious/casual")
+        
+        if time =="初一"：
+            carry(self,score_record,len(subject)-2)
+
+        elif time == "初二":
+            carry(self,score_record,len(subject)-)
+        elif time == "初三":
+            carry(self,score_record,len(subject))
+        else:
+            print("unkonwn period ,please input '初一/初二/初三'")
 
 
-        if teacher_attr == "casual":
-             up_number = 0.03*number
-             down_number = 0.05*number
-    
 
-        self.Exam_offset(False,up_number,down_number)
-    
-        self.Exam_offset(True,up_number,down_number)
 
-        self.score_record.append(self.score_detail)
-        self.score_detail = []
 
 
 
     def Excel(self):
-        print(self.Student)
-        print(self.score_record)
+
         ls1 = []
         ls2 = []
         for tup in self.Student:
@@ -131,7 +153,7 @@ class Class():
             ls2.append(tup[1])
 
         # Create a Pandas dataframe from some data.
-        Data = pd.DataFrame({'学号': ls1,'名字': ls2,'语文': self.score_record[0]})
+        Data = pd.DataFrame({'学号': ls1,'名字': ls2,'语文': self.score_record[0],"数学":self.score_record[1]})
        
    
         writer = pd.ExcelWriter('ClassScore.xlsx', engine='xlsxwriter')
