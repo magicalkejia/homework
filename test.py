@@ -37,7 +37,9 @@ if __name__ == "__main__":
        dict[seventh[i]] = pack[i]
        dict2[str(i)] = dict 
     
-    print(dict2['0']['期中'])
+    length = {"初一":len(seventh)-2,"初二":13-1,"初三":13,"中考":13}
+        
+    #print(dict2['0']['期中'])
     exit()
 
 

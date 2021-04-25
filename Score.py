@@ -129,6 +129,8 @@ class Class():
                 self.Exam_offset(False,up_number,down_number)
             
                 self.Exam_offset(True,up_number,down_number)
+                Bonus(self,self.score_detail,self.subject_list[i])
+                
 
                 package[self.subject_list[i]] = self.score_detail
                 self.score_detail = []
@@ -137,9 +139,9 @@ class Class():
         #处理时间参数，使得输入的时间字符串与相关数据建立关系，精简代码
 
         period = {"初一":self.seventh,"初二":self.eighth,"初三":self.nineth,"中考":self.end_key}
-        length = {"初一":len(self.subject_list)-2,"初二":self.subject_list)-1,"初三":len(self.subject_list),"中考":len(self.subject_list)}
+        length = {"初一": len(self.subject_list)-2,"初二": len(self.subject_list)-1,"初三" : len(self.subject_list),"中考" : len(self.subject_list)}
         data = {"初一":self.seven,"初二":self.eight,"初三":self.nine,"中考":self.end}
-        
+         
         for i  in range (len(period[time])):
             pack = Package(self,length[time])
             data[time][period[time][i]] = pack 
@@ -147,8 +149,19 @@ class Class():
         self.score_record[time] = data[time]
 
     
-    def Bonus(self,bonus):
-        subject_bonus = bonus
+    def Bonus(self,score_detail,subject):
+
+        subject_bonus = {"语文":(1,0.3,-0.1),"数学":(1,0.3,-0.1),"英语":(1,0.3,-0.1),"地理":(0.3,0.1,-0.1),"历史":(0.3,0.1,-0.1),"政治":(0.3,0.1,-0.1),"体育":(0.3,0.1,-0.1),"音乐":(0.3,0.1,-0.1),"画画":(0.3,0.1,-0.1),"物理":(0.3,0.1,-0.1),"化学":(0.3,0.1,-0.1)}
+
+        print(self.score_record['初一']['期中考试']['语文'])
+        if (subject == "" |  )
+  
+        '''for i in range(len(self.score_record)):
+            
+            for j in range(len(self.score_record[time[i]])):
+                step = self.score_record[time[i]][]
+
+                for h in range ()'''
 
 
 
@@ -164,19 +177,20 @@ class Class():
             ls2.append(tup[1])
 
 
-        writer = pd.ExcelWriter('{0}班级{1}成绩汇总.xlsx'.format(self.class_id,time), engine='xlsxwriter')
+        writer = pd.ExcelWriter('{0}班{1}成绩汇总.xlsx'.format(self.class_id,time), engine='xlsxwriter')
 
         period = {"初一":self.seventh,"初二":self.eighth,"初三":self.nineth,"中考":self.end_key}
 
 
         # Create a Pandas dataframe from some data.
         for i in range (len(period[time])):
+            stage = period[time]
             Info = pd.DataFrame({"学号":ls1,"姓名":ls2})
-            Data = pd.DataFrame(self.score_record[time][period[time]])
+            Data = pd.DataFrame(self.score_record[time][stage[i]])
 
         # Convert the dataframe to an XlsxWriter Excel object.
-            Info.to_excel(writer,sheet_name='{0}班{1}成绩'.format(self.class_id,period[time]),startcol=0, index=False)
-            Data.to_excel(writer,sheet_name='{0}班{1}成绩'.format(self.class_id,period[time]),startcol=2, index=False)
+            Info.to_excel(writer,sheet_name='{0}班{1}成绩'.format(self.class_id,stage[i]),startcol=0, index=False)
+            Data.to_excel(writer,sheet_name='{0}班{1}成绩'.format(self.class_id,stage[i]),startcol=2, index=False)
 
  
 
