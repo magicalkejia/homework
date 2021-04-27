@@ -5,10 +5,8 @@ from Score import Class
 import pandas
 
 
-def CreateTeacher(number):
-        for i in range(number):
-            current = Teacher("firstname.txt","lastname.txt")
-            print(current.tid,current.GetName())
+
+            
 
 def init():
     Id = input("Input the id of your class")
@@ -23,11 +21,15 @@ if __name__ == "__main__":
     
     class1 = Class("001",60)
     class1.CreateStudent()
+    class1.CreateTeacher()
     class1.Exam("casual","初一")
-    class1.Bonus(subject_bonus)
+    class1.Exam("casual","初二")
+    class1.Exam("casual","初三")
+    class1.Exam("casual","中考")
+    class1.Excel("中考","teacher")
+    class1.Graph()
 
 
-    print("End")
 
 
    
